@@ -1,0 +1,14 @@
+#!/bin/sh
+
+/usr/bin/killall -q synergyc
+
+ATHOME=`/sbin/ifconfig | grep "inet addr" | sed 's/addr://g' | awk '{print $2}' | grep ^172`
+ATWORK=`/sbin/ifconfig | grep "inet addr" | sed 's/addr://g' | awk '{print $2}' | grep ^10`
+SYNCMD='synergyc --daemon --name camaro'
+
+if [ "$ATHOME" != "" ] ; then 
+  $SYNCMD 172.31.6.69
+elif [ "$ATWORK" != "" ] ; then 
+  $SYNCMD transam.devel.redhat.com
+fi
+
